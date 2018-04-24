@@ -25,8 +25,10 @@ p22 l r = if (l < r) then [l] ++ p22 (l+1) r else []
 -- Extract a given number of randomly selected elements from a list.
 -- * (rnd-select '(a b c d e f g h) 3)
 -- (E D A)
-p23 :: [a] -> Int -> [a] -- nechisto
-p23 l n = take n $ l!!(randomRs (0, length l))
+p23 :: [a] -> Int -> IO [a] -- nechisto
+p23 l n = do
+  gen <- getStdGen
+  take n $ l!!(randomRs (0, length l) gen)
 
 -- Problem 24
 -- Lotto: Draw N different random numbers from the set 1..M.
