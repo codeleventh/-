@@ -1,5 +1,6 @@
+#Graham Hutton exercises
 
-**[The Haskell 99 Questions Practice](https://wiki.haskell.org/99_questions)**
+#[The Haskell 99 Questions Practice](https://wiki.haskell.org/99_questions)
 
 Progress: 
 
@@ -15,3 +16,4 @@ Progress:
     ○ ○ ○ ○ ○ ○ ○ ○ ○ ○  
     ○ ○ ○ ○ ○ ○ ○ ○ ○ 
 </pre>
+

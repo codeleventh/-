@@ -10,6 +10,7 @@ import System.Random
 -- * (insert-at 'alfa '(a b c d) 2)
 -- (A ALFA B C D)
 
+
 p21 :: a -> [a] -> Int -> [a]
 p21 a l n = let (x,y) = splitAt (n-1) l in 
   x ++ [a] ++ y
@@ -25,12 +26,26 @@ p22 l r = if (l < r) then [l] ++ p22 (l+1) r else []
 -- Extract a given number of randomly selected elements from a list.
 -- * (rnd-select '(a b c d e f g h) 3)
 -- (E D A)
-p23 :: [a] -> Int -> IO [a] -- nechisto
-p23 l n = do
-  gen <- getStdGen
-  take n $ l!!(randomRs (0, length l) gen)
+p23 :: RandomGen g => [a] -> Int -> g -> ([a], g) -- nechisto
+p23 list n gen = let (newList, gen') = shuffle gen list
+                  in (take n newList, gen')
+  where
+    removeAt :: [a] -> Int -> [a]
+    removeAt [] _ = []
+    removeAt (x:xs) n
+      | n == 0    = xs
+      | otherwise = x : removeAt xs (n - 1)
+    shuffle :: RandomGen g => g -> [a] -> ([a], g)
+    shuffle gen []  = ([], gen)
+    shuffle gen [x] = ([x], gen)
+    shuffle gen list = let (x, gen') = randomR (0, length list - 1) gen
+                           (restOfList, gen'') = shuffle gen' (removeAt list x)
+                        in ((list !! x) : restOfList, gen'')
 
--- Problem 24
+
+-- randomRs :: (Random a, RandomGen g) => (a, a) -> g -> [a]
+
+-- Problem 24P:\eisenhower\.gitignore
 -- Lotto: Draw N different random numbers from the set 1..M.
 -- * (rnd-select 6 49)
 -- (23 1 17 33 21 37)
